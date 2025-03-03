@@ -1,4 +1,4 @@
-name: Temp test kotlin npm install
+name: Create Release
 
 on:
   workflow_dispatch:
@@ -28,14 +28,22 @@ jobs:
       - name: Build JAR with Gradle
         run: ./gradlew build
 
+      - name: Extract tag name
+        id: extract-tag
+        run: |
+          # Extract the tag name from github.ref (e.g., refs/tags/v1.0.0 -> v1.0.0)
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "Extracted tag name: $TAG_NAME"
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
       - name: Create GitHub Release
         id: create-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }} # GitHub automatically provides this token
         with:
-          tag_name: ${{ github.ref }} # Use the tag that triggered the workflow
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ steps.extract-tag.outputs.tag_name }} # Use the extracted tag name
+          release_name: Release ${{ steps.extract-tag.outputs.tag_name }}
           draft: false
           prerelease: false
 
