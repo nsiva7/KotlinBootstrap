@@ -28,13 +28,11 @@ jobs:
       - name: Build JAR with Gradle
         run: ./gradlew build
 
-      - name: Extract tag name
-        id: extract-tag
+      - name: Generate Tag
+        id: tag
         run: |
-          # Extract the tag name from github.ref (e.g., refs/tags/v1.0.0 -> v1.0.0)
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          echo "Extracted tag name: $TAG_NAME"
-          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          TAG_NAME="v1.0.$GITHUB_RUN_NUMBER"
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         id: create-release
