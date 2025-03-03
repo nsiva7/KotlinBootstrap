@@ -36,13 +36,13 @@ fun BSModal(
     id: String,
     title: String,
     body: @Composable () -> Unit,
-    negativeButtonText: String = "Close",
-    positiveButtonText: String = "Okay",
+    negativeButtonText: String? = null,
+    positiveButtonText: String? = null,
     closableOutside: Boolean = false,
     centered: Boolean = true,
     size: ModalSize = ModalSize.None,
-    onNegativeButtonClick: () -> Unit,
-    onPositiveButtonClick: () -> Unit,
+    onNegativeButtonClick: (() -> Unit)? = null,
+    onPositiveButtonClick: (() -> Unit)? = null,
 ) {
     Div(attrs = modifier
         .id(id)
@@ -98,27 +98,33 @@ fun BSModal(
                 ) {
                     body()
                 }
+
+                if (negativeButtonText == null && positiveButtonText == null) return@Div
                 Div(
                     attrs = Modifier
                         .classNames("modal-footer")
                         .toAttrs()
                 ) {
-                    BSButton(
-                        modifier = Modifier.attrsModifier {
-                            attr("data-bs-dismiss", "modal")
-                        },
-                        text = negativeButtonText,
-                        variant = ButtonVariant.Secondary,
-                        onClick = { onNegativeButtonClick() }
-                    )
-                    BSButton(
-                        modifier = Modifier.attrsModifier {
-                            attr("data-bs-dismiss", "modal")
-                        },
-                        text = positiveButtonText,
-                        variant = ButtonVariant.Primary,
-                        onClick = { onPositiveButtonClick() }
-                    )
+                    negativeButtonText?.takeIf { it.isEmpty().not() }?.let {
+                        BSButton(
+                            modifier = Modifier.attrsModifier {
+                                attr("data-bs-dismiss", "modal")
+                            },
+                            text = it,
+                            variant = ButtonVariant.Secondary,
+                            onClick = { onNegativeButtonClick?.invoke() }
+                        )
+                    }
+                    positiveButtonText?.takeIf { it.isEmpty().not() }?.let {
+                        BSButton(
+                            modifier = Modifier.attrsModifier {
+                                attr("data-bs-dismiss", "modal")
+                            },
+                            text = it,
+                            variant = ButtonVariant.Primary,
+                            onClick = { onPositiveButtonClick?.invoke() }
+                        )
+                    }
                 }
             }
         }
