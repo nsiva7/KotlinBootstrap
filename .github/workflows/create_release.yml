@@ -45,12 +45,12 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload JAR as Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }} # Get the upload URL from the create-release step
-          asset_path: bootstrap/build/libs/bootstrap-js**.klib # Replace with the path to your JAR file
-          asset_name: bootstrap-js-${{ env.TAG_NAME }}.klib # Replace with the desired name for the JAR file
-          asset_content_type: application/java-archive
+#      - name: Upload JAR as Release Asset
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+#        with:
+#          upload_url: ${{ steps.create-release.outputs.upload_url }} # Get the upload URL from the create-release step
+#          asset_path: bootstrap/build/libs/bootstrap-js**.klib # Replace with the path to your JAR file
+#          asset_name: bootstrap-js-${{ env.TAG_NAME }}.klib # Replace with the desired name for the JAR file
+#          asset_content_type: application/java-archive
