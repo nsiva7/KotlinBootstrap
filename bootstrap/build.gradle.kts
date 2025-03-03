@@ -53,7 +53,7 @@ publishing {
     publications {
         register("mavenJsLibrary", MavenPublication::class) {
             from(components["kotlin"])
-            groupId = "com.github.stevdza-san"
+            groupId = "com.github.nsiva7"
             artifactId = "KotlinBootstrap"
             version = version
         }
