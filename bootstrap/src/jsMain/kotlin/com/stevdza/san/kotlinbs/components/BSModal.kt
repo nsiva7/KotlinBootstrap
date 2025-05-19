@@ -34,7 +34,7 @@ import org.jetbrains.compose.web.dom.Text
 fun BSModal(
     modifier: Modifier = Modifier,
     id: String,
-    title: String,
+    title: String? = null,
     body: @Composable () -> Unit,
     negativeButtonText: String? = null,
     positiveButtonText: String? = null,
@@ -75,21 +75,23 @@ fun BSModal(
                     .classNames("modal-content")
                     .toAttrs()
             ) {
-                Div(
-                    attrs = Modifier
-                        .classNames("modal-header")
-                        .toAttrs()
-                ) {
-                    H2(
+                title?.let {
+                    Div(
                         attrs = Modifier
-                            .classNames("modal-title")
+                            .classNames("modal-header")
                             .toAttrs()
                     ) {
-                        Text(value = title)
+                        H2(
+                            attrs = Modifier
+                                .classNames("modal-title")
+                                .toAttrs()
+                        ) {
+                            Text(value = it)
+                        }
+                        BSCloseButton(modifier = Modifier.attrsModifier {
+                            attr("data-bs-dismiss", "modal")
+                        })
                     }
-                    BSCloseButton(modifier = Modifier.attrsModifier {
-                        attr("data-bs-dismiss", "modal")
-                    })
                 }
                 Div(
                     attrs = Modifier
