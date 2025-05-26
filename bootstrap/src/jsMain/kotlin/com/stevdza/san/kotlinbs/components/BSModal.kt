@@ -1,6 +1,8 @@
 package com.stevdza.san.kotlinbs.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import com.stevdza.san.kotlinbs.models.button.ButtonVariant
 import com.stevdza.san.kotlinbs.models.ModalSize
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -9,9 +11,11 @@ import com.varabyte.kobweb.compose.ui.modifiers.classNames
 import com.varabyte.kobweb.compose.ui.modifiers.id
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
+import kotlinx.browser.document
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Text
+import org.w3c.dom.HTMLElement
 
 /**
  * Powerful UI element used to display content, messages, or interactive forms in a popup
@@ -41,6 +45,7 @@ fun BSModal(
     closableOutside: Boolean = false,
     centered: Boolean = true,
     size: ModalSize = ModalSize.None,
+    onClose: (() -> Unit)? = null,
     onNegativeButtonClick: (() -> Unit)? = null,
     onPositiveButtonClick: (() -> Unit)? = null,
 ) {
@@ -129,6 +134,19 @@ fun BSModal(
                     }
                 }
             }
+        }
+    }
+
+    DisposableEffect(id) {
+        val modalEl = document.getElementById(id) as? HTMLElement
+        val listener: (dynamic) -> Unit = {
+            onClose?.invoke()
+        }
+
+        modalEl?.addEventListener("hidden.bs.modal", listener)
+
+        onDispose {
+            modalEl?.removeEventListener("hidden.bs.modal", listener)
         }
     }
 }
