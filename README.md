@@ -41,6 +41,9 @@
 ## Bootstrap Icons usage
 - [Icons](#icons)
 
+## Version
+[![](https://jitpack.io/v/nsiva7/kotlinBootstrap.svg)](https://jitpack.io/#nsiva7/kotlinBootstrap)
+
 ## Install
 Update a Project level `build.gradle.kts` file:
 
@@ -60,7 +63,7 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 ..
-                implementation("com.github.nsiva7.KotlinBootstrap:KotlinBootstrap:v1.0.6")
+                implementation("com.github.nsiva7.KotlinBootstrap:KotlinBootstrap:{LATEST VERSION}")
             }
         }
     }
